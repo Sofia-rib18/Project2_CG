@@ -14,6 +14,10 @@ window.onload = function init() {
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setClearColor('#000000')
 
+    document.body.appendChild(renderer.domElement);
+
+
+
     renderer.setAnimationLoop(render)
 }
 
