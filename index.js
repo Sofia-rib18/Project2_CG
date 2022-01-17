@@ -2,6 +2,7 @@ import * as THREE from './libs/three.module.js'
 
 let camera, scene, renderer
 let baymax, head, shoulder1, elbow1, shoulder2, elbow2, bottom1, bottom2, knee1, knee2
+let floor, sideWalk
 
 window.onload = function init() {
     //criação da cena vazia que vai ter os elementos
@@ -11,8 +12,8 @@ window.onload = function init() {
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     // position the camera
     camera.position.x = 0;
-    camera.position.z = 140;
-    camera.position.y = 100;
+    camera.position.z = 180;
+    camera.position.y = 20;
 
 
     camera.lookAt(1, 1, 0) //aponta a camera para o centro da cena
@@ -22,7 +23,7 @@ window.onload = function init() {
 
 
     // configure renderer clear color
-    renderer.setClearColor("#e4e0ba");
+    renderer.setClearColor("#F2E5BD");
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 600))
 
     document.body.appendChild(renderer.domElement)
@@ -31,7 +32,8 @@ window.onload = function init() {
 
     //add objects
     createBaymax()
-
+    createFloor()
+    createSidewalk()
 
     // show axes for the WORLD CS
     // let axes = new THREE.AxesHelper(6);
@@ -47,6 +49,50 @@ function handleWindowResize() {
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
+}
+
+function createFloor() {
+    let geometry = new THREE.BoxGeometry(1800, 800, 750)
+    // let geometry = new THREE.CylinderGeometry(600, 600, 800, 40, 10);
+    // rotate the geometry on the x axis (local transformation)
+    geometry.rotateX(-Math.PI / 2);
+
+    // create the material
+    let material = new THREE.MeshBasicMaterial({
+        color: 0x267355,
+        transparent: true,
+        // opacity: .6
+    });
+
+    // create the mesh: geometry + material
+    floor = new THREE.Mesh(geometry, material);
+
+    // push it a little bit at the bottom of the scene
+    floor.position.y = -600;
+
+    console.log("Floor created")
+    scene.add(floor);
+}
+
+function createSidewalk() {
+    let geometry = new THREE.BoxGeometry(250, 700, 800);
+    // rotate the geometry on the x axis (local transformation)
+    geometry.rotateX(-Math.PI / 2);
+
+    // create the material
+    let material = new THREE.MeshBasicMaterial({
+        color: 0xD9D9D9,
+        transparent: true,
+    });
+
+    // create the mesh: geometry + material
+    sideWalk = new THREE.Mesh(geometry, material);
+
+    // push it a little bit at the bottom of the scene
+    sideWalk.position.y = -600;
+
+    console.log("Sidewalk created")
+    scene.add(sideWalk);
 }
 
 function createBaymax() {
@@ -241,7 +287,7 @@ function createBaymax() {
 
 
     baymax.scale.set(0.25, 0.25, 0.25);
-    baymax.position.y = 40;
+    baymax.position.y = -40;
 
     console.log("Baymax created")
     scene.add(baymax);
