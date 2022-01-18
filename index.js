@@ -3,6 +3,7 @@ import * as THREE from './libs/three.module.js'
 let camera, scene, renderer
 let baymax, head, shoulder1, elbow1, shoulder2, elbow2, bottom1, bottom2, knee1, knee2
 let floor, sideWalk
+let dir = 1
 
 window.onload = function init() {
     //criação da cena vazia que vai ter os elementos
@@ -12,8 +13,8 @@ window.onload = function init() {
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     // position the camera
     camera.position.x = 0;
-    camera.position.z = 180;
-    camera.position.y = 20;
+    camera.position.z = 140;
+    camera.position.y = 0;
 
 
     camera.lookAt(1, 1, 0) //aponta a camera para o centro da cena
@@ -52,7 +53,7 @@ function handleWindowResize() {
 }
 
 function createFloor() {
-    let geometry = new THREE.BoxGeometry(1800, 800, 750)
+    let geometry = new THREE.BoxGeometry(1800, 1000, 750)
     // let geometry = new THREE.CylinderGeometry(600, 600, 800, 40, 10);
     // rotate the geometry on the x axis (local transformation)
     geometry.rotateX(-Math.PI / 2);
@@ -75,7 +76,7 @@ function createFloor() {
 }
 
 function createSidewalk() {
-    let geometry = new THREE.BoxGeometry(250, 700, 800);
+    let geometry = new THREE.BoxGeometry(250, 860, 800);
     // rotate the geometry on the x axis (local transformation)
     geometry.rotateX(-Math.PI / 2);
 
@@ -125,7 +126,7 @@ function createBaymax() {
     head.add(eye2);
 
     head.position.set(0, 70, 0);
-    head.rotation.y = 5
+    head.rotation.y = 4
     baymax.add(head);
 
     /* Braço Esquerdo */
@@ -152,6 +153,7 @@ function createBaymax() {
     elbow1 = new THREE.Object3D();
     arm1.add(elbow1); // add the ELBOW to the ARM
     elbow1.position.x = 30
+    elbow1.rotation.z = 0
 
     // show axes for the SHOULDER CS
     let axesElbow = new THREE.AxesHelper(4);
@@ -160,7 +162,7 @@ function createBaymax() {
 
     /* FOREARM */
     let forearm1 = new THREE.Mesh(geometry, materialWhite);
-    forearm1.position.x = 20
+    forearm1.position.x = 30
     // add the FOREARM to the ELBOW
     elbow1.add(forearm1);
 
@@ -191,6 +193,7 @@ function createBaymax() {
     elbow2 = new THREE.Object3D();
     arm2.add(elbow2); // add the ELBOW to the ARM
     elbow2.position.x = 20
+    elbow2.rotation.z = 0
 
     // show axes for the SHOULDER CS
     let axesElbow2 = new THREE.AxesHelper(4);
@@ -287,13 +290,29 @@ function createBaymax() {
 
 
     baymax.scale.set(0.25, 0.25, 0.25);
-    baymax.position.y = -40;
+    baymax.position.y = -30;
 
-    console.log("Baymax created")
+    console.log("Plane created")
     scene.add(baymax);
 }
 
 function render() {
+    // render
+    renderer.render(scene, camera);
 
-    renderer.render(scene, camera)
+    //animação do boneco
+    head.rotation.y += dir * 0.01
+    if (head.rotation.y == 4) {
+        dir = 1
+    } else if (head.rotation.y >= 6) {
+        dir = -1
+    }
+
+    elbow1.rotation.z += dir * 0.01
+    if (elbow1.rotation.z == 0) {
+        dir = 1
+    } else if (elbow1.rotation.z >= 1.5) {
+        dir = -1
+    }
+
 }
