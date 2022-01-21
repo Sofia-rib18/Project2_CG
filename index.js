@@ -7,6 +7,7 @@ let floor, sideWalk
 let dir = 1
 let dir2 = 1
 let elbowRotation = false
+let pata = false
 
 window.onload = function init() {
     //criação da cena vazia que vai ter os elementos
@@ -462,6 +463,15 @@ function catAnimation() {
     } else if (face.rotation.x >= 0.49) {
         dir2 = -1
     }
+
+    if (pata) {
+        leg1.rotation.z += dir2 * 0.01
+        if (leg1.rotation.z == 0) {
+            dir2 = 1
+        } else if (leg1.rotation.z >= 9) {
+            dir2 = -1
+        }
+    }
 }
 
 document.addEventListener('keydown', event => {
@@ -473,5 +483,17 @@ document.addEventListener('keydown', event => {
 document.addEventListener("keyup", event => {
     if (event.key == 'w') {
         elbowRotation = false;
+    }
+})
+
+window.addEventListener('keydown', e => {
+    if(e.key == 'p'){
+        pata = true
+    }
+})
+
+window.addEventListener('keyup', e => {
+    if(e.key == 'p'){
+        pata = false
     }
 })
