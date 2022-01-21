@@ -292,8 +292,9 @@ function createBaymax() {
     calf2.add(axesCalf2);
 
 
-    baymax.scale.set(0.25, 0.25, 0.25);
-    baymax.position.y = -30;
+    baymax.scale.set(0.35, 0.35, 0.35);
+    baymax.position.y = -10;
+    baymax.position.x = 40;
 
     console.log("Plane created")
     scene.add(baymax);
@@ -306,14 +307,15 @@ function createCat() {
     let material1 = new THREE.MeshNormalMaterial();
     face = new THREE.Mesh(geometryFace, material1);
     face.rotation.y = 0.2
+    face.position.y = -2.1
     face.position.z = 130
-    face.position.x = 4
+    face.position.x = -2.2
     scene.add(face)
 
     //Corpo do gato
     let geometryBody = new THREE.SphereGeometry(0.7);
     body = new THREE.Mesh(geometryBody, material1);
-    body.position.set(3.7, -1.15, 130)
+    body.position.set(-2.5, -3.25, 130)
     scene.add(body)
 
     //Pescoço do gato
@@ -425,12 +427,12 @@ function render() {
         dir = -1
     }
 
-    elbow1.rotation.z += dir * 0.01
-    if (elbow1.rotation.z == 0) {
-        dir = 1
-    } else if (elbow1.rotation.z >= 1.5) {
-        dir = -1
-    }
+    // elbow1.rotation.z += dir * 0.01
+    // if (elbow1.rotation.z == 0) {
+    //     dir = 1
+    // } else if (elbow1.rotation.z >= 1.5) {
+    //     dir = -1
+    // }
 
     catAnimation()
 
