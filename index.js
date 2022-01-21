@@ -6,6 +6,7 @@ let cat, face, neck, eye1, eye2, ear1, ear2, nose, body, tail, paw1, paw2, paw3,
 let floor, sideWalk
 let dir = 1
 let dir2 = 1
+let elbowRotation = false
 
 window.onload = function init() {
     //criação da cena vazia que vai ter os elementos
@@ -431,12 +432,16 @@ function render() {
         dir = -1
     }
 
-    // elbow1.rotation.z += dir * 0.01
-    // if (elbow1.rotation.z == 0) {
-    //     dir = 1
-    // } else if (elbow1.rotation.z >= 1.5) {
-    //     dir = -1
-    // }
+    //interação com o boneco carregando na tecla w
+    if (elbowRotation) {
+        elbow1.rotation.z += dir * 0.01
+        if (elbow1.rotation.z == 0) {
+            dir = 1
+        } else if (elbow1.rotation.z >= 1.5) {
+            dir = -1
+        }
+    }
+
 
     catAnimation()
 
@@ -458,3 +463,15 @@ function catAnimation() {
         dir2 = -1
     }
 }
+
+document.addEventListener('keydown', event => {
+    if (event.key == 'w') {
+        elbowRotation = true
+    }
+})
+
+document.addEventListener("keyup", event => {
+    if (event.key == 'w') {
+        elbowRotation = false;
+    }
+})
