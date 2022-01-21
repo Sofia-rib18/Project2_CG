@@ -1,9 +1,10 @@
 import * as THREE from './libs/three.module.js'
+import * as BufferGeometryUtils from './libs/BufferGeometryUtils.js';
 
 let camera, scene, renderer
 let baymax, head, shoulder1, elbow1, shoulder2, elbow2, bottom1, bottom2, knee1, knee2
 let cat, face, neck, eye1, eye2, ear1, ear2, nose, body, tail, paw1, paw2, paw3, paw4, leg1, leg2
-let floor, sideWalk
+let floor, sideWalk, sky, sky2, sky3, sky4
 let dir = 1
 let dir2 = 1
 let elbowRotation = false
@@ -40,6 +41,10 @@ window.onload = function init() {
     createCat()
     createFloor()
     createSidewalk()
+    createSky()
+    createSky2()
+    createSky4()
+    createSky3()
 
     // show axes for the WORLD CS
     // let axes = new THREE.AxesHelper(6);
@@ -55,6 +60,275 @@ function handleWindowResize() {
     renderer.setSize(WIDTH, HEIGHT);
     camera.aspect = WIDTH / HEIGHT;
     camera.updateProjectionMatrix();
+}
+
+function createSky() {
+    // create an empty container
+    sky = new THREE.Object3D();
+    // push its center a bit towards the bottom of the screen (like the sea)
+    sky.position.y = -510;
+
+    // choose a number of clouds to be scattered in the sky
+    const nClouds = 120;
+
+    // to distribute the clouds consistently, place them according to a uniform angle
+    const stepAngle = Math.PI * 2 / nClouds;
+
+    // create the clouds and add them to the sky mesh
+    for (let i = 0; i < nClouds; i++) {
+        // will hold the different parts (cubes) of the cloud
+        let cloudGeometries = [];
+
+        // duplicate the geometry a random number of times
+        let nBlocs = 3 + Math.floor(Math.random() * 3);
+        for (let j = 0; j < nBlocs; j++) {
+            // let m = new THREE.Mesh(geometry, material);
+            let cloudGeometry = new THREE.BoxGeometry(20, 20, 20);
+
+            // set the position and the rotation of each cube randomly
+            cloudGeometry.translate.x = j * 15;
+            cloudGeometry.translate.y = Math.random() * 10;
+            cloudGeometry.translate.z = Math.random() * 10;
+            cloudGeometry.rotateZ(Math.random() * Math.PI * 2);
+            cloudGeometry.rotateY(Math.random() * Math.PI * 2);
+
+            // set the size of the cube randomly
+            let s = .1 + Math.random() * 1.8;
+            // m.scale.set(s, s, s);
+            cloudGeometry.scale(s, s, s);
+
+            //cloud.add(cloudGeometry);
+            cloudGeometries.push(cloudGeometry)
+
+        }
+        console.log(cloudGeometries.length)
+        const cloudMergedGeom = BufferGeometryUtils.mergeBufferGeometries(cloudGeometries);
+        const cloud = new THREE.Mesh(
+            cloudMergedGeom,
+            new THREE.MeshBasicMaterial({ color: 0x8ac5d7 })
+        )
+
+        // set the rotation and the position of each cloud
+        let a = stepAngle * i; // final angle of the cloud
+        let h = 750 + Math.random() * 200; // distance between the center of the axis and the cloud itself
+
+        // Trigonometry
+        cloud.position.y = Math.sin(a) * h;
+        cloud.position.x = Math.cos(a) * h;
+
+        // position the clouds at random depths inside of the scene
+        cloud.position.z = -500
+
+        // rotate the cloud according to its position
+        cloud.rotation.z = a + Math.PI / 2;
+
+        // add the group of each cloud mesh to the sky
+        sky.add(cloud);
+    }
+
+    console.log("Sky created")
+    scene.add(sky);
+}
+function createSky2() {
+    // create an empty container
+    sky2 = new THREE.Object3D();
+    // push its center a bit towards the bottom of the screen (like the sea)
+    sky2.position.y = -510;
+
+    // choose a number of clouds to be scattered in the sky
+    const nClouds = 120;
+
+    // to distribute the clouds consistently, place them according to a uniform angle
+    const stepAngle = Math.PI * 2 / nClouds;
+
+    // create the clouds and add them to the sky mesh
+    for (let i = 0; i < nClouds; i++) {
+        // will hold the different parts (cubes) of the cloud
+        let cloudGeometries = [];
+
+        // duplicate the geometry a random number of times
+        let nBlocs = 3 + Math.floor(Math.random() * 3);
+        for (let j = 0; j < nBlocs; j++) {
+            // let m = new THREE.Mesh(geometry, material);
+            let cloudGeometry = new THREE.BoxGeometry(20, 20, 20);
+
+            // set the position and the rotation of each cube randomly
+            cloudGeometry.translate.x = j * 15;
+            cloudGeometry.translate.y = Math.random() * 10;
+            cloudGeometry.translate.z = Math.random() * 10;
+            cloudGeometry.rotateZ(Math.random() * Math.PI * 2);
+            cloudGeometry.rotateY(Math.random() * Math.PI * 2);
+
+            // set the size of the cube randomly
+            let s = .1 + Math.random() * 1.8;
+            // m.scale.set(s, s, s);
+            cloudGeometry.scale(s, s, s);
+
+            //cloud.add(cloudGeometry);
+            cloudGeometries.push(cloudGeometry)
+
+        }
+        console.log(cloudGeometries.length)
+        const cloudMergedGeom = BufferGeometryUtils.mergeBufferGeometries(cloudGeometries);
+        const cloud = new THREE.Mesh(
+            cloudMergedGeom,
+            new THREE.MeshBasicMaterial({ color: 0xacaed8 })
+        )
+
+        // set the rotation and the position of each cloud
+        let a = stepAngle * i; // final angle of the cloud
+        let h = 750 + Math.random() * 200; // distance between the center of the axis and the cloud itself
+
+        // Trigonometry
+        cloud.position.y = Math.sin(a) * h;
+        cloud.position.x = Math.cos(a) * h;
+
+        // position the clouds at random depths inside of the scene
+        cloud.position.z = -850
+
+        // rotate the cloud according to its position
+        cloud.rotation.z = a + Math.PI / 2;
+
+        // add the group of each cloud mesh to the sky
+        sky2.add(cloud);
+    }
+
+    console.log("Sky2 created")
+    scene.add(sky2);
+}
+function createSky3() {
+    // create an empty container
+    sky3 = new THREE.Object3D();
+    // push its center a bit towards the bottom of the screen (like the sea)
+    sky3.position.y = -700;
+
+    // choose a number of clouds to be scattered in the sky
+    const nClouds = 120;
+
+    // to distribute the clouds consistently, place them according to a uniform angle
+    const stepAngle = Math.PI * 2 / nClouds;
+
+    // create the clouds and add them to the sky mesh
+    for (let i = 0; i < nClouds; i++) {
+        // will hold the different parts (cubes) of the cloud
+        let cloudGeometries = [];
+
+        // duplicate the geometry a random number of times
+        let nBlocs = 3 + Math.floor(Math.random() * 3);
+        for (let j = 0; j < nBlocs; j++) {
+            // let m = new THREE.Mesh(geometry, material);
+            let cloudGeometry = new THREE.BoxGeometry(15, 15, 15);
+
+            // set the position and the rotation of each cube randomly
+            cloudGeometry.translate.x = j * 15;
+            cloudGeometry.translate.y = Math.random() * 10;
+            cloudGeometry.translate.z = Math.random() * 10;
+            cloudGeometry.rotateZ(Math.random() * Math.PI * 2);
+            cloudGeometry.rotateY(Math.random() * Math.PI * 2);
+
+            // set the size of the cube randomly
+            let s = .1 + Math.random() * 1.8;
+            // m.scale.set(s, s, s);
+            cloudGeometry.scale(s, s, s);
+
+            //cloud.add(cloudGeometry);
+            cloudGeometries.push(cloudGeometry)
+
+        }
+        console.log(cloudGeometries.length)
+        const cloudMergedGeom = BufferGeometryUtils.mergeBufferGeometries(cloudGeometries);
+        const cloud = new THREE.Mesh(
+            cloudMergedGeom,
+            new THREE.MeshBasicMaterial({ color: 0xcdbfd9 })
+        )
+
+        // set the rotation and the position of each cloud
+        let a = stepAngle * i; // final angle of the cloud
+        let h = 750 + Math.random() * 200; // distance between the center of the axis and the cloud itself
+
+        // Trigonometry
+        cloud.position.y = Math.sin(a) * h;
+        cloud.position.x = Math.cos(a) * h;
+
+        // position the clouds at random depths inside of the scene
+        cloud.position.z = -860
+
+        // rotate the cloud according to its position
+        cloud.rotation.z = a + Math.PI / 2;
+
+        // add the group of each cloud mesh to the sky
+        sky3.add(cloud);
+    }
+
+    console.log("Sky3 created")
+    scene.add(sky3);
+}
+function createSky4() {
+    // create an empty container
+    sky4 = new THREE.Object3D();
+    // push its center a bit towards the bottom of the screen (like the sea)
+    sky4.position.y = -800;
+
+    // choose a number of clouds to be scattered in the sky
+    const nClouds = 120;
+
+    // to distribute the clouds consistently, place them according to a uniform angle
+    const stepAngle = Math.PI * 2 / nClouds;
+
+    // create the clouds and add them to the sky mesh
+    for (let i = 0; i < nClouds; i++) {
+        // will hold the different parts (cubes) of the cloud
+        let cloudGeometries = [];
+
+        // duplicate the geometry a random number of times
+        let nBlocs = 3 + Math.floor(Math.random() * 3);
+        for (let j = 0; j < nBlocs; j++) {
+            // let m = new THREE.Mesh(geometry, material);
+            let cloudGeometry = new THREE.BoxGeometry(10, 10, 10);
+
+            // set the position and the rotation of each cube randomly
+            cloudGeometry.translate.x = j * 15;
+            cloudGeometry.translate.y = Math.random() * 10;
+            cloudGeometry.translate.z = Math.random() * 10;
+            cloudGeometry.rotateZ(Math.random() * Math.PI * 2);
+            cloudGeometry.rotateY(Math.random() * Math.PI * 2);
+
+            // set the size of the cube randomly
+            let s = .1 + Math.random() * 1.8;
+            // m.scale.set(s, s, s);
+            cloudGeometry.scale(s, s, s);
+
+            //cloud.add(cloudGeometry);
+            cloudGeometries.push(cloudGeometry)
+
+        }
+        console.log(cloudGeometries.length)
+        const cloudMergedGeom = BufferGeometryUtils.mergeBufferGeometries(cloudGeometries);
+        const cloud = new THREE.Mesh(
+            cloudMergedGeom,
+            new THREE.MeshBasicMaterial({ color: 0xd6acab })
+        )
+
+        // set the rotation and the position of each cloud
+        let a = stepAngle * i; // final angle of the cloud
+        let h = 750 + Math.random() * 200; // distance between the center of the axis and the cloud itself
+
+        // Trigonometry
+        cloud.position.y = Math.sin(a) * h;
+        cloud.position.x = Math.cos(a) * h;
+
+        // position the clouds at random depths inside of the scene
+        cloud.position.z = -860
+
+        // rotate the cloud according to its position
+        cloud.rotation.z = a + Math.PI / 2;
+
+        // add the group of each cloud mesh to the sky
+        sky4.add(cloud);
+    }
+
+    console.log("Sky3 created")
+    scene.add(sky4);
 }
 
 function createFloor() {
@@ -425,6 +699,11 @@ function render() {
     // render
     renderer.render(scene, camera);
 
+    sky.rotation.z -= 0.002
+    sky2.rotation.z += 0.003
+    sky3.rotation.z -= 0.002
+    sky4.rotation.z += 0.003
+
     //animação do boneco
     head.rotation.y += dir * 0.01
     if (head.rotation.y == 4) {
@@ -487,13 +766,13 @@ document.addEventListener("keyup", event => {
 })
 
 window.addEventListener('keydown', e => {
-    if(e.key == 'p'){
+    if (e.key == 'p') {
         pata = true
     }
 })
 
 window.addEventListener('keyup', e => {
-    if(e.key == 'p'){
+    if (e.key == 'p') {
         pata = false
     }
 })
