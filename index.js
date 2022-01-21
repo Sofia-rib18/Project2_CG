@@ -2,7 +2,7 @@ import * as THREE from './libs/three.module.js'
 
 let camera, scene, renderer
 let baymax, head, shoulder1, elbow1, shoulder2, elbow2, bottom1, bottom2, knee1, knee2
-let face, neck, eye1, eye2, ear1, ear2, nose, body, tail, paw1, paw2, paw3, paw4, leg1, leg2
+let cat, face, neck, eye1, eye2, ear1, ear2, nose, body, tail, paw1, paw2, paw3, paw4, leg1, leg2
 let floor, sideWalk
 let dir = 1
 let dir2 = 1
@@ -300,18 +300,27 @@ function createBaymax() {
 }
 
 function createCat() {
+
     //cabeça do gato
     let geometryFace = new THREE.SphereGeometry(0.5);
     let material1 = new THREE.MeshNormalMaterial();
     face = new THREE.Mesh(geometryFace, material1);
     face.rotation.y = 0.2
+    face.position.z = 130
+    face.position.x = 4
     scene.add(face)
+
+    //Corpo do gato
+    let geometryBody = new THREE.SphereGeometry(0.7);
+    body = new THREE.Mesh(geometryBody, material1);
+    body.position.set(3.7, -1.15, 130)
+    scene.add(body)
 
     //Pescoço do gato
     let geometryNeck = new THREE.CylinderGeometry(0.15, 0.15, 0.15, 20);
     neck = new THREE.Mesh(geometryNeck, material1);
-    neck.position.set(0, -0.45, 0)
-    scene.add(neck);
+    neck.position.set(0.3, 0.6, 0)
+    body.add(neck);
 
     //Olho1 do gato
     let geometryEye1 = new THREE.SphereGeometry(0.1);
@@ -341,12 +350,6 @@ function createCat() {
     nose = new THREE.Mesh(geometryNose, material2);
     nose.position.set(0.3, 0.05, 0.4)
     face.add(nose)
-
-    //Corpo do gato
-    let geometryBody = new THREE.SphereGeometry(0.7);
-    body = new THREE.Mesh(geometryBody, material1);
-    body.position.set(-0.3, -0.7, 0)
-    neck.add(body)
 
     //Cauda do gato
     class CustomSinCurve extends THREE.Curve {
