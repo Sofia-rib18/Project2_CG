@@ -301,11 +301,15 @@ function createBaymax() {
 }
 
 function createCat() {
+    const materialOrange = new THREE.MeshBasicMaterial({ color: 0xe6934d });
+    const materialBlue = new THREE.MeshBasicMaterial({ color: 0x374b70 });
+    const materialWhite2 = new THREE.MeshBasicMaterial({ color: 0xf3f5f5 });
+    const materialOrange2 = new THREE.MeshBasicMaterial({ color: 0x491b04 })
 
     //cabeça do gato
     let geometryFace = new THREE.SphereGeometry(0.5);
     let material1 = new THREE.MeshNormalMaterial();
-    face = new THREE.Mesh(geometryFace, material1);
+    face = new THREE.Mesh(geometryFace, materialOrange);
     face.rotation.y = 0.2
     face.position.y = -2.1
     face.position.z = 130
@@ -314,42 +318,42 @@ function createCat() {
 
     //Corpo do gato
     let geometryBody = new THREE.SphereGeometry(0.7);
-    body = new THREE.Mesh(geometryBody, material1);
+    body = new THREE.Mesh(geometryBody, materialOrange2);
     body.position.set(-2.5, -3.25, 130)
     scene.add(body)
 
     //Pescoço do gato
     let geometryNeck = new THREE.CylinderGeometry(0.15, 0.15, 0.15, 20);
-    neck = new THREE.Mesh(geometryNeck, material1);
+    neck = new THREE.Mesh(geometryNeck, materialWhite2);
     neck.position.set(0.3, 0.6, 0)
     body.add(neck);
 
     //Olho1 do gato
     let geometryEye1 = new THREE.SphereGeometry(0.1);
     let material2 = new THREE.MeshBasicMaterial({ color: 0x049ef4 })
-    eye1 = new THREE.Mesh(geometryEye1, material2);
+    eye1 = new THREE.Mesh(geometryEye1, materialBlue);
     eye1.position.set(0.10, 0.20, 0.35);
     face.add(eye1)
 
     //Olho2 do gato
-    eye2 = new THREE.Mesh(geometryEye1, material2);
+    eye2 = new THREE.Mesh(geometryEye1, materialBlue);
     eye2.position.set(0.30, 0.20, 0.21);
     face.add(eye2)
 
     //Orelha1 do gato
     let geometryEar1 = new THREE.ConeGeometry(0.15, 0.25, 3);
-    ear1 = new THREE.Mesh(geometryEar1, material2);
+    ear1 = new THREE.Mesh(geometryEar1, materialBlue);
     ear1.position.set(-0.1, 0.5, 0.25)
     face.add(ear1);
 
     //Orelha2 do gato
-    ear2 = new THREE.Mesh(geometryEar1, material2);
+    ear2 = new THREE.Mesh(geometryEar1, materialWhite2);
     ear2.position.set(0.2, 0.5, 0)
     face.add(ear2);
 
     //Nariz do gato
     let geometryNose = new THREE.SphereGeometry(0.1);
-    nose = new THREE.Mesh(geometryNose, material2);
+    nose = new THREE.Mesh(geometryNose, materialBlue);
     nose.position.set(0.3, 0.05, 0.4)
     face.add(nose)
 
@@ -371,7 +375,7 @@ function createCat() {
 
     let path = new CustomSinCurve(0.5);
     let geometryTail = new THREE.TubeGeometry(path, 45, 0.1, 8, false);
-    tail = new THREE.Mesh(geometryTail, material1);
+    tail = new THREE.Mesh(geometryTail, materialOrange);
     //alterar posição e rotação da cauda
     tail.position.set(-0.8, 0, -0.4)
     tail.rotation.z = 3
@@ -380,14 +384,14 @@ function createCat() {
 
     //Perna1 do gato
     let geometryLeg1 = new THREE.CylinderGeometry(0.13, 0.13, 0.7, 20);
-    leg1 = new THREE.Mesh(geometryLeg1, material1);
+    leg1 = new THREE.Mesh(geometryLeg1, materialOrange);
     leg1.position.set(0.5, 0, 0.5)
     leg1.rotation.z = -6
     leg1.rotation.x = -0.3
     body.add(leg1);
 
     //Perna1 do gato
-    leg2 = new THREE.Mesh(geometryLeg1, material1);
+    leg2 = new THREE.Mesh(geometryLeg1, materialOrange);
     leg2.position.set(0.7, 0, 0.2)
     leg2.rotation.z = -5.9
     leg2.rotation.x = -0.2
@@ -395,22 +399,22 @@ function createCat() {
 
     //Pata1 do gato
     let geometryPaw1 = new THREE.SphereGeometry(0.2);
-    paw1 = new THREE.Mesh(geometryPaw1, material1);
+    paw1 = new THREE.Mesh(geometryPaw1, materialOrange);
     paw1.position.set(0, -0.6, 0.6)
     body.add(paw1)
 
     //Pata2 do gato
-    paw2 = new THREE.Mesh(geometryPaw1, material1);
+    paw2 = new THREE.Mesh(geometryPaw1, materialOrange);
     paw2.position.set(0.4, -0.6, -0.2)
     body.add(paw2)
 
     //Pata3 do gato
-    paw3 = new THREE.Mesh(geometryPaw1, material1);
+    paw3 = new THREE.Mesh(geometryPaw1, materialOrange);
     paw3.position.set(0.1, -0.4, 0.1)
     leg2.add(paw3)
 
     //Pata4 do gato
-    paw4 = new THREE.Mesh(geometryPaw1, material1);
+    paw4 = new THREE.Mesh(geometryPaw1, materialOrange);
     paw4.position.set(0.1, -0.4, 0.1)
     leg1.add(paw4)
 }
